@@ -9,11 +9,13 @@ Drone and Robotics class project using Tello Drone & python & openCV
   - Take a photo when you smile </br>
   - Control with keyboard input </br>
 
+![blockdiagram](https://user-images.githubusercontent.com/57945707/138041398-4a6638a2-7734-4641-9cc6-e1194ea4d03e.JPG)
 
  <h2> 3. Implement algorithm </h2>
   Haar Cascade classifier </br>
+
   - Method for recognize specific object is compare an image with certain features </br>
-  -For face recognition we use Haar feature  Which check the  brightness difference of pixels </br>
+  - For face recognition we use Haar feature  Which check the  brightness difference of pixels </br>
 
   <h2> 4. Result </h2>
   
