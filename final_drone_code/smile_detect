@@ -1,0 +1,129 @@
+#find face (Haar Algorithm) 
+#find  smiles within those face Haar algo
+# Label the face if it smile
+
+from sys import maxsize
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+cnt = 0
+
+# Face classifier
+face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+smile_detector = cv2.CascadeClassifier('haarcascade_smile.xml')
+
+# Grab Webcam feed (it must change with tello live stream cam)
+webcam = cv2.VideoCapture(0) #this is the metho what u grab
+
+#Show the currnt Frame /not really necesarry
+while True:
+
+    # Read current frame from the webcam video stream
+    succesful_frame_read, frame = webcam.read() #read single frame
+
+    # If there's an error, abort
+    if not succesful_frame_read:
+        print("error occurred")
+        break
+
+    # Change to grayscale
+    frame_grayscale = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # Detect faces first
+    faces = face_detector.detectMultiScale(frame_grayscale)
+
+    # Run face detector within each of those faces
+    for (x, y, w, h) in faces:
+
+        # Draw a rectangle around the face
+        cv2.rectangle(frame, (x,y), (x+w, y+h), (100, 200, 50), 4)
+        
+        # Get the sub frame (using numpy)
+        the_face = frame[y:y+h, x:x+w]    
+
+        # Change to gray Scale
+        face_grayscale = cv2.cvtColor(the_face, cv2.COLOR_BGR2GRAY)
+
+
+        smiles = smile_detector.detectMultiScale(face_grayscale, scaleFactor=1.7, minNeighbors=20)
+
+        if len(smiles) > 0:
+            cv2.putText(frame, 'smiling', (x, y+h+40), fontScale=3,
+            fontFace=cv2.FONT_HERSHEY_PLAIN, color=(255, 255, 255))
+            
+        # Find all smiles in the face
+        #for (x_, y_, w_, h_) in smiles:
+        #    cv2.rectangle(the_face, (x_,y_), (x_+w_, y_+h_), (50, 50, 200), 4) # Draw all the rectangles around the smile
+
+    
+    # Show the corrent frame
+    cv2.imshow('smile detector',frame)
+
+    if len(faces) == 0:
+        print("no face!")
+    elif len(faces) == 1:
+        print("face!")
+
+        print("x:{} y:{}".format(faces[0,0],faces[0][1]))
+        if faces[0][2] * faces[0][3] < 20000:
+            print("too far!")
+        elif faces[0][2] * faces[0][3] > 50000:
+            print("too close!")
+        else:
+            if len(smiles) > 0:
+                print("it smile!")
+                print("Screenshot saved...")
+                cv2.imwrite('screenshot{}.png'.format(cnt), frame) # Save Screen shot with cv method
+                cnt += 1 
+        #10000<30000
+    else:
+        print("too much face")
+
+       
+    '''
+   
+imgur = 'C:\\Users\\harry\\Desktop\\drone\\screenshot0.png'
+imgul = 'C:\\Users\\harry\\Desktop\\drone\\screenshot1.png'
+imglr = 'C:\\Users\\harry\\Desktop\\drone\\screenshot2.png'
+imgll = 'C:\\Users\\harry\\Desktop\\drone\\screenshot3.png'
+
+img1 = cv2.imread(imgur,1)
+img2 = cv2.imread(imgul,1)
+img3 = cv2.imread(imglr,1)
+img4 = cv2.imread(imgll,1)
+
+img1 = cv2.resize(img1,(230,260))
+img2 = cv2.resize(img2,(230,260))
+img3 = cv2.resize(img3,(230,260))
+img4 = cv2.resize(img4,(230,260))
+
+img5 = cv2.vconcat([img1, img2])
+img6 = cv2.vconcat([img3, img4])
+
+img7 = cv2.hconcat([img5,img6])
+
+cv2.imshow('concatimg.png',img7)
+cv2.imwrite('concatimg.png',img7)
+cv2.waitKey(0)
+
+   
+    
+
+    callibrating
+    거리 -> 위치
+
+    
+    
+
+ '''
+
+    # Display cv  
+    cv2.waitKey(1) #method is mm second
+
+# Cleanup
+webcam.release()
+cv2.destroyAllWindows()
+
+# Code ran without errors
+print("Code Complete")
