@@ -36,7 +36,7 @@ Image also saves as cv’s imwrite() function.
 The process repeats as many times as possible of four .
 
 <br><br> <h2> 4. Smile maker final presentation .pdf </h2> 
- [드론프로젝트.pdf](https://github.com/ekgp3987/Drone_Smile_Maker/files/7612027/_.pdf.pdf)
+  x
 
   <h2> 5. Reference </h2>
   -Face Dectection with Haar Cascade <br>
